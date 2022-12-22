@@ -15,7 +15,6 @@ class Tree {
   }
 }
 const bst = new Tree(array)
-//console.log(bst.root);
 
 
 prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -27,6 +26,7 @@ prettyPrint = (node, prefix = '', isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
   }
 }
+
 prettyPrint(bst.root)
 
 function sortArray(arr, ) {
@@ -37,7 +37,6 @@ function sortArray(arr, ) {
 }
 
 function buildTree(arr, start, end) {
-
   if (!once) {
     arr = sortArray(arr)
     end = arr.length - 1
@@ -48,7 +47,6 @@ function buildTree(arr, start, end) {
   }
 
   const mid = parseInt((start + end) / 2)
-  //console.log(start,end, mid)
   const node = new Node(arr[mid])
 
   node.left = buildTree(arr, start, mid -1)
@@ -56,3 +54,51 @@ function buildTree(arr, start, end) {
   return node
 }
 
+function insertNode(root, value) {
+  if (root === null) {
+    root = new Node(value);
+    return root;
+  }
+  if (value < root.value) {
+    root.left = insertNode(root.left, value)
+  } else if (value > root.value) {
+    root.right = insertNode(root.right, value)
+  }
+  return root
+}
+
+insertNode(bst.root, 29)
+prettyPrint(bst.root)
+
+function deleteNode(root, value) {
+  if (root === null) {
+    return root
+  }
+
+  if (value < root.value) {
+    root.left = deleteNode(root.left, value)
+  } else if (value > root.value) {
+    root.right = deleteNode(root.right, value)
+  } else {
+    if (root.left == null) {
+      return root.right;
+    } else if (root.right == null) {
+      return root.left;
+    }
+    root.value = minValue(root.right);
+    root.right = deleteNode(root.right, root.value);
+  }
+  return root;
+}
+    
+function minValue(root) {
+  let minv = root.value;
+  while (root.left !== null) {
+  minv = root.left.value;
+  root = root.left;
+  }
+  return minv;
+}
+
+deleteNode(bst.root, 29)
+prettyPrint(bst.root)
