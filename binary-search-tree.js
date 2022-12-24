@@ -135,8 +135,41 @@ function levelOrderIt(root, func) {
   }
   
 }
+
 let i = 0;
 function levelOrderHelper(node) {
-  console.log(i++)
+  console.log(i,node,i++)
   return node
+}
+
+
+
+function postOrder(root, func) { //TODO: test without queue
+  let queue = []
+  if (root === null) {
+    return root 
+  }
+  queue.push(root)
+  if (queue.length != 0) {
+    postOrder(root.left, func)
+    postOrder(root.right, func)
+  }
+  func(queue[0])
+  queue.shift()
+}
+
+let preQueue = []
+
+function preOrder(root, func) { //TODO: test without queue
+  
+  if (root === null) {
+    return root 
+  }
+  preQueue.push(root)
+  if (preQueue.length != 0) {
+    preOrder(root.left, func)
+    preOrder(root.right, func)
+  }
+  func(preQueue[0])
+  preQueue.shift()
 }
