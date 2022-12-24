@@ -306,3 +306,11 @@ function findDepth(root, value) {
 function isBalanced(root) {
   return (Math.abs(maxDepth(root.left) - maxDepth(root.right))) <= 1;
 }
+
+function rebalance(tree, root) { 
+  const newValues = inOrderRec(root)
+
+  tree = new Tree(newValues)
+  return tree
+}
+
