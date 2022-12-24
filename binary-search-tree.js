@@ -183,34 +183,40 @@ function levelOrderHelper(node) {
   return node
 }
 
-levelOrderIt(bst.root)
+const postOrderValues = []
 
-function postOrder(root, func) { //TODO: test without queue
-  let queue = []
+function postOrder(root, func = null) {
   if (root === null) {
     return root 
   }
-  queue.push(root)
-  if (queue.length != 0) {
-    postOrder(root.left, func)
-    postOrder(root.right, func)
+  if (func === null) {
+    postOrderValues.push(root.value)
   }
-  func(queue[0])
-  queue.shift()
+  postOrder(root.left, func)
+  postOrder(root.right, func)
+  if (func !== null) {
+    func(root)
+  } else {
+    return postOrderValues
+  }
 }
 
-let preQueue = []
+const preOrderValues = []
 
-function preOrder(root, func) { //TODO: test without queue
+function preOrder(root, func = null) {
   
   if (root === null) {
     return root 
   }
-  preQueue.push(root)
-  if (preQueue.length != 0) {
-    preOrder(root.left, func)
-    preOrder(root.right, func)
+  if (func === null) {
+    preOrderValues.push(root.value)
   }
-  func(preQueue[0])
-  preQueue.shift()
+  if (func !== null) {
+    func(root)
+  }
+  preOrder(root.left, func)
+  preOrder(root.right, func)
+  if (func === null) {
+    return preOrderValues
+  }
 }
