@@ -237,3 +237,27 @@ function inOrder(root, func = null) {
     return inOrderValues
   }
 }
+
+let nodeHeight = 1;
+
+function findHeight(root, value) {
+  let foundValue = root
+  
+  if (foundValue === null) {
+    return null
+  }
+  while (foundValue !== null) {
+    if (value === foundValue.value) {
+      return nodeHeight
+    }
+    nodeHeight++
+    if (value < foundValue.value) {
+      foundValue = foundValue.left
+    } else if (value > foundValue.value) {
+      foundValue = foundValue.right
+    }
+  }
+  return null
+}
+
+console.log(findHeight(bst.root, 4))
