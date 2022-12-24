@@ -283,3 +283,23 @@ function maxDepth(node) {
   }
 }
 
+function findDepth(root, value) {
+  let foundValue = root
+  
+  if (foundValue === null) {
+    return null
+  }
+  while (foundValue !== null) {
+    if (value === foundValue.value) {
+      return maxDepth(foundValue)
+    }
+    nodeHeight++
+    if (value < foundValue.value) {
+      foundValue = foundValue.left
+    } else if (value > foundValue.value) {
+      foundValue = foundValue.right
+    }
+  }
+  return null
+}
+
