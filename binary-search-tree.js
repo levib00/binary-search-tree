@@ -189,14 +189,12 @@ function postOrder(root, func = null) {
   if (root === null) {
     return root 
   }
-  if (func === null) {
-    postOrderValues.push(root.value)
-  }
   postOrder(root.left, func)
   postOrder(root.right, func)
   if (func !== null) {
     func(root)
   } else {
+    postOrderValues.push(root.value)
     return postOrderValues
   }
 }
@@ -218,5 +216,24 @@ function preOrder(root, func = null) {
   preOrder(root.right, func)
   if (func === null) {
     return preOrderValues
+  }
+}
+
+const inOrderValues = [];
+
+function inOrder(root, func = null) {
+  if (root === null) {
+    return root
+  }
+  inOrder(root.left, func)
+  if (func === null) {
+    inOrderValues.push(root.value)
+  }
+  if (func !== null) {
+    func(root)
+  }
+  inOrder(root.right, func)
+  if (func === null) {
+    return inOrderValues
   }
 }
