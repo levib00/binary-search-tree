@@ -314,3 +314,12 @@ function rebalance(tree, root) {
   return tree
 }
 
+function randomNumberArray() {
+  const randArray = [];
+  const loops = Math.floor(Math.random() * 16)
+  for (let i = 0; i <= loops; i++) {
+    randArray.push(Math.floor(Math.random() * 10001))
+  }
+  return randArray
+}
+
