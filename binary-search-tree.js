@@ -67,9 +67,6 @@ function insertNode(root, value) {
   return root
 }
 
-insertNode(bst.root, 29)
-prettyPrint(bst.root)
-
 function deleteNode(root, value) {
   if (root === null) {
     return root
@@ -92,13 +89,54 @@ function deleteNode(root, value) {
 }
     
 function minValue(root) {
-  let minv = root.value;
+  let minV = root.value;
   while (root.left !== null) {
-  minv = root.left.value;
+  minV = root.left.value;
   root = root.left;
   }
-  return minv;
+  return minV;
 }
 
-deleteNode(bst.root, 29)
-prettyPrint(bst.root)
+function find(root, value) {
+  let foundValue = root
+  if (foundValue === null) {
+    return null
+  }
+  while (foundValue !== null) {
+    if (value === foundValue.value) {
+      return foundValue
+    }
+    if (value < foundValue.value) {
+      foundValue = foundValue.left
+    } else if (value > foundValue.value) {
+      foundValue = foundValue.right
+    }
+  }
+  return null
+}
+
+function levelOrderIt(root, func) {
+  let queue = [];
+  if (root === null) {
+    return
+  }
+  queue.push(root)
+  while (queue.length !== 0) {
+    const current = queue[0]
+    if (current.left !== null) {
+      queue.push(current.left)
+    }
+    if (current.right !== null) {
+      queue.push(current.right)
+    }
+    
+    func(queue[0])
+    queue.shift()
+  }
+  
+}
+let i = 0;
+function levelOrderHelper(node) {
+  console.log(i++)
+  return node
+}
