@@ -323,3 +323,25 @@ function randomNumberArray() {
   return randArray
 }
 
+function test() { 
+  let bst = new Tree(randomNumberArray())
+  console.log('Tree is balanced', isBalanced(bst.root))
+  console.log('level Order', levelOrderRec(bst.root))
+  console.log('Preorder', preOrderRec(bst.root))
+  console.log('Postorder', postOrderRec(bst.root))
+  console.log('inorder', inOrderRec(bst.root))
+  insertNode(bst.root, 99990)
+  insertNode(bst.root, 99980)
+  insertNode(bst.root, 87000)
+  insertNode(bst.root, 88880)
+  insertNode(bst.root, 90000)
+  console.log('Tree is balanced',isBalanced(bst.root))
+  bst = rebalance(bst, bst.root)
+  console.log('Tree is balanced',isBalanced(bst.root))
+  console.log('level Order', levelOrderRec(bst.root))
+  console.log('Preorder', preOrderRec(bst.root))
+  console.log('Postorder', postOrderRec(bst.root))
+  console.log('inorder', inOrderRec(bst.root))
+}
+
+test()
