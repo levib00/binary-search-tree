@@ -1,5 +1,4 @@
-//make start arr[0] and end arr[arr.length - 1] for a BST of a sorted array
-let once =  false
+//TODO: add comments
 class Node {
   constructor (value) {
     this.value = value
@@ -7,15 +6,12 @@ class Node {
     this.right = null
   }
 }
-const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 class Tree {
   constructor(array) {
-    this.root = buildTree(array, 0, array.length - 1)
+    this.root = buildTree(sortArray(array), 0, sortArray(array).length - 1)
   }
 }
-const bst = new Tree(array)
-
 
 prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node.right !== null) {
@@ -27,8 +23,6 @@ prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 }
 
-prettyPrint(bst.root)
-
 function sortArray(arr, ) {
   arr.sort((a, b) => (a - b));
   let unique = arr => [...new Set(arr)];
@@ -37,11 +31,6 @@ function sortArray(arr, ) {
 }
 
 function buildTree(arr, start, end) {
-  if (!once) {
-    arr = sortArray(arr)
-    end = arr.length - 1
-    once = true
-  }
   if (start > end) {
     return null
   }
@@ -144,37 +133,43 @@ function levelOrderIt(root, func = null) {
   }
 }
 
-const queueRec = []
-const queueRecValues = []
 
 function levelOrderRec(root, func = null) {
-  if (func === null) {
-    queueRecValues.push(root.value)
-  }
-  if (queueRec.length < 1) {
-    queueRec.push(root)
-  }
-  if (func) {
-    func(queueRec[0])
-  }
+  const queueRec = []
+  const queueRecValues = []
 
-  queueRec.shift()
+  function levelOrder(root, func) {
+    if (func === null) {
+      queueRecValues.push(root.value)
+    }
+    if (queueRec.length < 1) {
+      queueRec.push(root)
+    }
+    if (func) {
+      func(queueRec[0])
+    }
 
-  if (root.left !== null) {
-    queueRec.push(root.left)
-  }
-  if (root.right !== null) {
-    queueRec.push(root.right)
-  }
+    queueRec.shift()
 
-  if (queueRec.length === 0 && func === null) {
-    return queueRecValues
+    if (root.left !== null) {
+      queueRec.push(root.left)
+    }
+    if (root.right !== null) {
+      queueRec.push(root.right)
+    }
+    
+    if (queueRec.length === 0 && func === null) {
+      return queueRecValues
+    }
+    if (queueRec.length === 0) {
+      return
+    }
+    
+    levelOrder(queueRec[0], func)
+    
   }
-  if (queueRec.length === 0) {
-    return
-  }
-  
-  levelOrderRec(queueRec[0], func)
+  levelOrder(root, func)
+  return queueRecValues
 }
 
 let i = 0;
@@ -183,65 +178,77 @@ function levelOrderHelper(node) {
   return node
 }
 
-const postOrderValues = []
+function postOrderRec(root, func = null) { 
+  const postOrderValues = []
 
-function postOrder(root, func = null) {
-  if (root === null) {
-    return root 
+  function postOrder(root, func) {
+    if (root === null) {
+      return root 
+    }
+    postOrder(root.left, func)
+    postOrder(root.right, func)
+    if (func !== null) {
+      func(root)
+    } else {
+      postOrderValues.push(root.value)
+    }
   }
-  postOrder(root.left, func)
-  postOrder(root.right, func)
-  if (func !== null) {
-    func(root)
-  } else {
-    postOrderValues.push(root.value)
+  postOrder(root, func)
+  if (func === null) {
     return postOrderValues
   }
 }
+function preOrderRec(root, func = null) {
+  const preOrderValues = []
 
-const preOrderValues = []
+  function preOrder(root, func) {
+    
+    if (root === null) {
+      return root 
+    }
+    if (func === null) {
+      preOrderValues.push(root.value)
+    }
+    if (func !== null) {
+      func(root)
+    }
+    preOrder(root.left, func)
+    preOrder(root.right, func)
+    
+  }
 
-function preOrder(root, func = null) {
-  
-  if (root === null) {
-    return root 
-  }
-  if (func === null) {
-    preOrderValues.push(root.value)
-  }
-  if (func !== null) {
-    func(root)
-  }
-  preOrder(root.left, func)
-  preOrder(root.right, func)
+  preOrder(root, func)
   if (func === null) {
     return preOrderValues
   }
 }
+function inOrderRec(root, func = null) {
+  const inOrderValues = [];
 
-const inOrderValues = [];
-
-function inOrder(root, func = null) {
-  if (root === null) {
-    return root
+  function inOrder(root, func) {
+    if (root === null) {
+      return root
+    }
+    inOrder(root.left, func)
+    if (func === null) {
+      inOrderValues.push(root.value)
+    }
+    if (func !== null) {
+      func(root)
+    }
+    inOrder(root.right, func)
+    
   }
-  inOrder(root.left, func)
-  if (func === null) {
-    inOrderValues.push(root.value)
-  }
-  if (func !== null) {
-    func(root)
-  }
-  inOrder(root.right, func)
+  inOrder(root, func)
   if (func === null) {
     return inOrderValues
   }
 }
 
-let nodeHeight = 1;
 
 function findHeight(root, value) {
   let foundValue = root
+  let nodeHeight = 1;
   
   if (foundValue === null) {
     return null
@@ -260,4 +267,19 @@ function findHeight(root, value) {
   return null
 }
 
-console.log(findHeight(bst.root, 4))
+function maxDepth(node) {
+  if (node === null) {
+    return 0;
+  } else {
+    let lDepth = maxDepth(node.left);
+    let rDepth = maxDepth(node.right);
+
+    /* use the larger one */
+    if (lDepth > rDepth) {
+      return (lDepth + 1);
+    } else {
+      return (rDepth + 1);
+    }
+  }
+}
+
