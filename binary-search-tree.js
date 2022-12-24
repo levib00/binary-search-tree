@@ -115,14 +115,18 @@ function find(root, value) {
   return null
 }
 
-function levelOrderIt(root, func) {
+function levelOrderIt(root, func = null) {
   let queue = [];
+  const queueItValues = []
   if (root === null) {
     return
   }
   queue.push(root)
   while (queue.length !== 0) {
     const current = queue[0]
+    if (func === null) {
+      queueItValues.push(current.value)
+    }
     if (current.left !== null) {
       queue.push(current.left)
     }
@@ -130,10 +134,47 @@ function levelOrderIt(root, func) {
       queue.push(current.right)
     }
     
-    func(queue[0])
+    if (func) {
+      func(queue[0])
+    }
     queue.shift()
   }
+  if (func === null) {
+    return queueItValues
+  }
+}
+
+const queueRec = []
+const queueRecValues = []
+
+function levelOrderRec(root, func = null) {
+  if (func === null) {
+    queueRecValues.push(root.value)
+  }
+  if (queueRec.length < 1) {
+    queueRec.push(root)
+  }
+  if (func) {
+    func(queueRec[0])
+  }
+
+  queueRec.shift()
+
+  if (root.left !== null) {
+    queueRec.push(root.left)
+  }
+  if (root.right !== null) {
+    queueRec.push(root.right)
+  }
+
+  if (queueRec.length === 0 && func === null) {
+    return queueRecValues
+  }
+  if (queueRec.length === 0) {
+    return
+  }
   
+  levelOrderRec(queueRec[0], func)
 }
 
 let i = 0;
@@ -142,7 +183,7 @@ function levelOrderHelper(node) {
   return node
 }
 
-
+levelOrderIt(bst.root)
 
 function postOrder(root, func) { //TODO: test without queue
   let queue = []
