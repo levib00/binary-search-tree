@@ -303,3 +303,6 @@ function findDepth(root, value) {
   return null
 }
 
+function isBalanced(root) {
+  return (Math.abs(maxDepth(root.left) - maxDepth(root.right))) <= 1;
+}
