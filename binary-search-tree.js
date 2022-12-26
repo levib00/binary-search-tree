@@ -1,4 +1,3 @@
-//TODO: add comments
 class Node {
   constructor (value) {
     this.value = value
@@ -25,6 +24,8 @@ prettyPrint = (node, prefix = '', isLeft = true) => {
 
 function sortArray(arr, ) {
   arr.sort((a, b) => (a - b));
+
+  //creates a set from the array to remove duplicate numbers
   let unique = arr => [...new Set(arr)];
   arr = unique(arr)
   return arr
@@ -86,8 +87,8 @@ function minValue(root) {
   return minV;
 }
 
-function find(root, value) {
-  let foundValue = root
+function find(node, value) {
+  let foundValue = node
   if (foundValue === null) {
     return null
   }
@@ -104,6 +105,7 @@ function find(root, value) {
   return null
 }
 
+//goes through level order of the tree iteratively 
 function levelOrderIt(root, func = null) {
   let queue = [];
   const queueItValues = []
@@ -133,7 +135,7 @@ function levelOrderIt(root, func = null) {
   }
 }
 
-
+//goes through the tree recursively
 function levelOrderRec(root, func = null) {
   const queueRec = []
   const queueRecValues = []
@@ -178,6 +180,7 @@ function levelOrderHelper(node) {
   return node
 }
 
+//goes through tree in post order and does a function on each node. if no function is provided return the nodes in an array.
 function postOrderRec(root, func = null) { 
   const postOrderValues = []
 
@@ -198,6 +201,8 @@ function postOrderRec(root, func = null) {
     return postOrderValues
   }
 }
+
+//goes through tree in pre-order and does a function on each node. if no function is provided return the nodes in an array.
 function preOrderRec(root, func = null) {
   const preOrderValues = []
 
@@ -214,7 +219,6 @@ function preOrderRec(root, func = null) {
     }
     preOrder(root.left, func)
     preOrder(root.right, func)
-    
   }
 
   preOrder(root, func)
@@ -222,6 +226,8 @@ function preOrderRec(root, func = null) {
     return preOrderValues
   }
 }
+
+//goes through tree in order and does a function on each node. if no function is provided return the nodes in an array.
 function inOrderRec(root, func = null) {
   const inOrderValues = [];
 
@@ -293,7 +299,6 @@ function findDepth(root, value) {
     if (value === foundValue.value) {
       return maxDepth(foundValue)
     }
-    nodeHeight++
     if (value < foundValue.value) {
       foundValue = foundValue.left
     } else if (value > foundValue.value) {
@@ -323,6 +328,7 @@ function randomNumberArray() {
   return randArray
 }
 
+//tests all the functions
 function test() { 
   let bst = new Tree(randomNumberArray())
   console.log('Tree is balanced', isBalanced(bst.root))
